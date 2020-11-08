@@ -65,16 +65,61 @@ const checkUser = async (req, res, next) => {
   }
 };
 
-const isEmpresa = (req, res, next) => {
-  next();
+const isEmpresa = async (req, res, next) => {
+  let token = req.cookies.token;
+  if (!token) {
+    return res.json({
+      success: false,
+      message: "Auth token is not supplied",
+    });
+  }
+  const usuario = await model.findOne({ token });
+  if (usuario.rol === "empresa") {
+    next();
+  } else {
+    return res.send(403).json({
+      success: false,
+      message: "Rol no valido",
+    });
+  }
 };
 
-const isEmpresaorAdmin = (req, res, next) => {
-  next();
+const isEmpresaorAdmin = async (req, res, next) => {
+  let token = req.cookies.token;
+  if (!token) {
+    return res.json({
+      success: false,
+      message: "Auth token is not supplied",
+    });
+  }
+  const usuario = await model.findOne({ token });
+  if (usuario.rol !== "usuario") {
+    next();
+  } else {
+    return res.send(403).json({
+      success: false,
+      message: "Rol no valido",
+    });
+  }
 };
 
-const isAdmin = (req, res, next) => {
-  next();
+const isAdmin = async (req, res, next) => {
+  let token = req.cookies.token;
+  if (!token) {
+    return res.json({
+      success: false,
+      message: "Auth token is not supplied",
+    });
+  }
+  const usuario = await model.findOne({ token });
+  if (usuario.rol === "admin") {
+    next();
+  } else {
+    return res.send(403).json({
+      success: false,
+      message: "Rol no valido",
+    });
+  }
 };
 
 module.exports = {

@@ -15,6 +15,7 @@ const UsuarioRouter = require("./routes/usuario");
 const ProductoRouter = require("./routes/producto");
 const EmpresaRouter = require("./routes/empresa");
 const loginRouter = require("./routes/login");
+const logoutRouter = require("./routes/logout");
 const signupRouter = require("./routes/signup");
 
 var app = express();
@@ -40,6 +41,7 @@ app.use("/api/login", loginRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/producto", ProductoRouter);
 app.use("/api/empresa", EmpresaRouter);
+app.use("/api/logout", logoutRouter);
 
 /// catch 404 and forwarding to error handler
 app.use(function (req, res, next) {

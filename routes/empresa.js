@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const model = mongoose.model("Empresa");
 
 // GET
-router.get("/", middleware.checkToken, middleware.isAdmin, (req, res) => {
+router.get("/", middleware.isAdmin, (req, res) => {
   model.find({}).then((data) => {
     res.send(data);
   });
@@ -26,5 +26,22 @@ router.get(
     });
   }
 );
+
+// CREATE producto
+router.post("/", middleware.isEmpresa, (req, res) => {
+  const { nombre, categoria } = req.body;
+  let producto = new model({
+    nombre,
+    categoria,
+  });
+  producto
+    .save()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 module.exports = router;

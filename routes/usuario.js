@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const model = mongoose.model("Usuario");
 
 // GET
-router.get("/", middleware.checkToken, (req, res) => {
+router.get("/", middleware.isAdmin, (req, res) => {
   model.find({}).then((data) => {
     res.send(data);
   });
@@ -20,6 +20,28 @@ router.get("/:id", (req, res) => {
       res.send("no data for this id_");
     }
   });
+});
+
+// UPDATE
+router.patch("/:correo", async (req, res) => {
+  let doc = await model.findOneAndUpdate(
+    { correo: req.params.correo },
+    req.body,
+    {
+      new: true,
+    }
+  );
+  res.send(doc);
+});
+
+router.get("/log/info", async (req, res) => {
+  let token = req.cookies.token;
+  if (!token) {
+    res.send({});
+  } else {
+    const usuario = await model.findOne({ token });
+    res.send(usuario);
+  }
 });
 
 module.exports = router;

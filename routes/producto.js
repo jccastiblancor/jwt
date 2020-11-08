@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
 });
 
 // CREATE producto
-router.post("/", middleware.checkToken, middleware.isEmpresa, (req, res) => {
+router.post("/", middleware.isEmpresa, (req, res) => {
   const { nombre, precio } = req.body;
   let producto = new model({
     nombre,
