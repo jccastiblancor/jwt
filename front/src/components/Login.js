@@ -25,7 +25,11 @@ const Login = () => {
         <Card>
           <Card.Body>
             <Card.Title>Login</Card.Title>
-            <Formulario campos={campos} validateForm={validateForm} />
+            <Formulario
+              campos={campos}
+              validateForm={validateForm}
+              apiRoute="/api/login"
+            />
             <div className="text-center">
               <Card.Text>O ingresa con google</Card.Text>
               <Button variant="danger" type="submit">
